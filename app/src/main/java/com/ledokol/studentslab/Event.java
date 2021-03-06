@@ -2,13 +2,16 @@ package com.ledokol.studentslab;
 
 public class Event {
 
-    private String title; // название
-    private String text;  // столица
-    private int logo; // ресурс флага
+    private String title;
+    private String text,teacher,teacherName,classroom;
+    private int logo;
 
-    public Event(String title, String text, int logo){
+    public Event(String title, String text, String teacher, String teacherName, String classroom, int logo){
         this.title=title;
         this.text=text;
+        this.teacher=teacher;
+        this.teacherName=teacherName;
+        this.classroom=classroom;
         this.logo =logo;
     }
 
@@ -26,6 +29,30 @@ public class Event {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getTeacher() {
+        return this.teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public String getTeacherName() {
+        return this.teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getClassroom() {
+        return this.classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 
     public int getLogo() {

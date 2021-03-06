@@ -42,23 +42,28 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
 
     @Override
     public void onBindViewHolder(RecycleViewEventsMainView.ViewHolder holder, int position) {
-        Event state = events.get(position);
+        final Event state = events.get(position);
 //        holder.logoView.setImageResource(state.getLogo());
         holder.titleView.setText(state.getTitle());
-        holder.textView.setText(state.getText());
+        holder.teacherView.setText(state.getTeacherName());
+        holder.classroomView.setText(state.getClassroom());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomSheet();;
+                showBottomSheet(state);;
             }
         });
     }
 
-    public void showBottomSheet(){
+    public void showBottomSheet(Event state){
         bottomSheetView = (LinearLayout) LayoutInflater.from(this.context).inflate(R.layout.fragment_bottom_sheet_event, null);//Главные функции
         bottomSheetDialog = new BottomSheetDialog(this.context);
         bottomSheetDialog.setContentView(bottomSheetView);
         ViewGroup.LayoutParams layoutParams = bottomSheetView.getLayoutParams();
+
+
+        ((TextView)bottomSheetView.findViewById(R.id.titleViewSheet)).setText(state.getTitle().toString());
+        ((TextView)bottomSheetView.findViewById(R.id.textViewSheet)).setText(state.getText().toString());
 
         int windowHeight = getWindowHeight();
         if (layoutParams != null) {
@@ -83,12 +88,13 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleView,textView;
+        TextView titleView,teacherView,classroomView;
         ImageView logoView;
         ViewHolder(View view){
             super(view);
             titleView=view.findViewById(R.id.titleEvent);
-            textView=view.findViewById(R.id.textEvent);
+            teacherView=view.findViewById(R.id.teacherEvent);
+            classroomView=view.findViewById(R.id.classroomEvent);
 //            logoView=view.findViewById(R.id.logoEvent);
         }
     }
