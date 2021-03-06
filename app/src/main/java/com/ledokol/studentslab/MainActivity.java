@@ -18,6 +18,7 @@ import com.ledokol.studentslab.events.MainEvents;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ledokol.studentslab.create.CreateEvent;
+import com.ledokol.studentslab.profile.ProfileActivity;
 import com.ledokol.studentslab.registration.LoginActivity;
 import com.ledokol.studentslab.registration.RegistrationActivity;
 
@@ -35,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
                     Fragment fragment=new MainEvents();
                     loadFragment(fragment);
                     return true;
+                case R.id.navigation_create_events:
+                    Fragment fragment1 = new CreateEvent();
+                    loadFragment(fragment1);
+                    return true;
                 case R.id.navigation_profile:
-                    Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();;
-                    //здесь запустить профиль
-//                    Fragment fragment=new MainEvents();
-//                    loadFragment(fragment);
+                    Fragment fragment2 = new ProfileActivity();
+                    loadFragment(fragment2);
                     return true;
             }
             return false;

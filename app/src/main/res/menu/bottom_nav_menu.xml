@@ -6,6 +6,11 @@
         android:title="@string/bottom_navigation_main_events" />
 
     <item
+        android:id="@+id/navigation_create_events"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="@string/bottom_navigation_new" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/bottom_navigation_profile" />
