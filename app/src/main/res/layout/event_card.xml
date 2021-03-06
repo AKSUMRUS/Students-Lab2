@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="20px"
+        android:background="@drawable/rounded_corner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/nameEvents"
-            android:text="Новое мероприятие"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="20px">
+            <TextView
+                android:id="@+id/titleEvent"
+                android:text="Новое мероприятие"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TextView>
+            <TextView
+                android:id="@+id/textEvent"
+                android:text="Это очень хорошее плезное мероприятие"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TextView>
+            <ImageView
+                android:id="@+id/logoEvent"
+                android:layout_marginTop="20px"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </ImageView>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

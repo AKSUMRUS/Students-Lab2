@@ -56,9 +56,12 @@ public class MainActivity extends AppCompatActivity {
             signIn();
         }
         else {
-            Intent intent = new Intent(MainActivity.this, CreateEvent.class);
-            startActivity(intent);
+            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.nav_viewMain);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//            Intent intent = new Intent(MainActivity.this, CreateEvent.class);
+//            startActivity(intent);
         }
+
 
     }
 

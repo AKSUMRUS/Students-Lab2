@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.ledokol.studentslab.Event;
 import com.ledokol.studentslab.R;
 
 import java.util.List;
@@ -16,11 +19,15 @@ import java.util.List;
 public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleViewEventsMainView.ViewHolder>{
 
     private final LayoutInflater inflater;
-    private final List<String> states;
+    private final List<Event> events;
+    BottomSheetDialog bottomSheetDialog;
+    View bottomSheetView;
+    Context context;
 
-    RecycleViewEventsMainView(Context context, List<String> states) {
-        this.states = states;
+    RecycleViewEventsMainView(Context context, List<Event> states) {
+        this.events = states;
         this.inflater = LayoutInflater.from(context);
+        this.context=context;
     }
     @Override
     public RecycleViewEventsMainView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,28 +38,39 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
 
     @Override
     public void onBindViewHolder(RecycleViewEventsMainView.ViewHolder holder, int position) {
-        String state = states.get(position);
-//        holder.flagView.setImageResource(state.getFlagResource());
-//        holder.nameView.setText(state.getName());
-//        holder.capitalView.setText(state.getCapital());
-        holder.titleView.setText(state);
+        Event state = events.get(position);
+        holder.logoView.setImageResource(state.getLogo());
+        holder.titleView.setText(state.getTitle());
+        holder.textView.setText(state.getText());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomSheet();;
+            }
+        });
+    }
+
+    public void showBottomSheet(){
+        bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.fragment_bottom_sheet_event, null);//Главные функции
+        bottomSheetDialog = new BottomSheetDialog(this.context);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        Toast.makeText(this.context,"BottomSheetDialog",Toast.LENGTH_SHORT).show();;
+        bottomSheetDialog.show();
     }
 
     @Override
     public int getItemCount() {
-        return states.size();
+        return events.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-//        ImageView flagView;
-//        TextView nameView, capitalView;
-        TextView titleView;
+        TextView titleView,textView;
+        ImageView logoView;
         ViewHolder(View view){
             super(view);
-            titleView=view.findViewById(R.id.nameEvents);
-//            flagView = (ImageView)view.findViewById(R.id.flag);
-//            nameView = (TextView) view.findViewById(R.id.name);
-//            capitalView = (TextView) view.findViewById(R.id.capital);
+            titleView=view.findViewById(R.id.titleEvent);
+            textView=view.findViewById(R.id.textEvent);
+            logoView=view.findViewById(R.id.logoEvent);
         }
     }
 }
