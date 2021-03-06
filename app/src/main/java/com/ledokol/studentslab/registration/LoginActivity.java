@@ -43,8 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!email.getText().toString().toString().equals("") && !password.getText().toString().equals("")) {
+                if(!email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                     login(email.getText().toString(),password.getText().toString());
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Введите все данные", Toast.LENGTH_SHORT).show();
                 }
             }
         });

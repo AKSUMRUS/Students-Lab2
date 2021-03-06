@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.ledokol.studentslab.MainActivity;
 import com.ledokol.studentslab.R;
 
@@ -45,7 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!nickname.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
+                if(!nickname.getText().toString().isEmpty() && !email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
                     signUp(email.getText().toString(),password.getText().toString(),nickname.getText().toString());
                 }
             }
@@ -57,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null&&currentUser.isEmailVerified()) {
+        if (currentUser != null) {
             updateUI();
         }
     }
@@ -79,11 +80,11 @@ public class RegistrationActivity extends AppCompatActivity {
                             Log.d("SignUp", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference docRef = db.collection("Account").document(user.getUid().toString());
+                            DocumentReference docRef = db.collection("Account").document(user.getUid());
                             HashMap<String,Object>  hashMap = new HashMap<>();
                             hashMap.put("name", nickname);
                             hashMap.put("email",email);
-                            docRef.set(hashMap);
+                            docRef.set(hashMap, SetOptions.merge());
                             updateUI();
 //                            updateUI(user);
                         } else {
