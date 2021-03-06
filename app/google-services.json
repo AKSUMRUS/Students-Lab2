@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "180620073789",
+    "project_id": "students-lab-f22a2",
+    "storage_bucket": "students-lab-f22a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180620073789:android:d76793da92c3026bcd8354",
+        "android_client_info": {
+          "package_name": "com.ledokol.studentslab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180620073789-ah956u5kp4spcf5og04o87ealfjfqp9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ledokol.studentslab",
+            "certificate_hash": "8f99904e113aa87fb0e15769b61f54cd4d4593e4"
+          }
+        },
+        {
+          "client_id": "180620073789-akcg0jlirh8d9ngokpc56vvfeulvg26b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM76eg87YR6wIkt-vI_hzxpWH-cpmR5p0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180620073789-akcg0jlirh8d9ngokpc56vvfeulvg26b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
