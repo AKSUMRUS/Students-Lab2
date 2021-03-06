@@ -70,7 +70,8 @@ public class CreateEvent extends AppCompatActivity {
         hashMap.put("title",title.getText().toString());
         hashMap.put("description",description.getText().toString());
         hashMap.put("address",address.getText().toString());
-        db.collection("Events").add(hashMap);
+        String id = db.collection("Events").document().getId();
+        db.collection("Events").document(id).set(hashMap);
         Log.e("SEND POST", "Sent");
     }
 }
