@@ -26,6 +26,9 @@ public class MainEvents extends Fragment {
 //        // устанавливаем для списка адаптер
 //        recyclerView.setAdapter(adapter);
 
+
+
+
         return view;
     }
 }
