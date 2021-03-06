@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/background">
+        android:orientation="horizontal"
+        android:background="@color/background"
+        android:weightSum="100">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="50">
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Станислав Иванов Птеров"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="27dp"/>
+
+            <TextView
+                android:id="@+id/role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Преподаватель кафедры математики и информатики"
+                android:textSize="16dp"
+                android:textColor="@color/colorAccent"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/profile_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:layout_margin="5dp"
+            android:layout_weight="50"
+            android:src="@drawable/logo" />
 
     </LinearLayout>
 

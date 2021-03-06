@@ -21,16 +21,21 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.ledokol.studentslab.R;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CreateEvent extends Fragment {
 
@@ -80,8 +85,20 @@ public class CreateEvent extends Fragment {
         hashMap.put("description",description.getText().toString());
         hashMap.put("address",address.getText().toString());
         hashMap.put("author",user.getUid());
-        String id = db.collection("Events").document().getId();
+        final String id = db.collection("Events").document().getId();
         db.collection("Events").document(id).set(hashMap);
+        final DocumentReference docRef = db.collection("Account").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Map<String,Object> m = task.getResult().getData();
+                ArrayList arrayList = (ArrayList) m.get("myEvents");
+                arrayList.add(id);
+                m.put("myEvents",arrayList);
+                docRef.set(m,SetOptions.merge());
+                Toast.makeText(getContext(),"New event has sent",Toast.LENGTH_LONG).show();
+            }
+        });
         Log.e("SEND POST", "Sent");
     }
 
