@@ -1,7 +1,10 @@
 package com.ledokol.studentslab.create;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -9,7 +12,9 @@ import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,22 +32,25 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
-public class CreateEvent extends AppCompatActivity {
+public class CreateEvent extends Fragment {
 
+    View view;
     EditText title,description,address;
     Button time,sendEvent;
+    FirebaseUser user;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_event);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_create_event, container, false);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-        title = findViewById(R.id.title_input);
-        description = findViewById(R.id.description_input);
-        address = findViewById(R.id.address_input);
+        title = view.findViewById(R.id.title_input);
+        description = view.findViewById(R.id.description_input);
+        address = view.findViewById(R.id.address_input);
 
-        time = findViewById(R.id.time_input);
-        sendEvent = findViewById(R.id.send_event_button);
+        time = view.findViewById(R.id.time_input);
+        sendEvent = view.findViewById(R.id.send_event_button);
 
         time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +67,9 @@ public class CreateEvent extends AppCompatActivity {
                 }
             }
         });
-
+        return view;
     }
+
 
 
 
@@ -70,8 +79,11 @@ public class CreateEvent extends AppCompatActivity {
         hashMap.put("title",title.getText().toString());
         hashMap.put("description",description.getText().toString());
         hashMap.put("address",address.getText().toString());
+        hashMap.put("author",user.getUid());
         String id = db.collection("Events").document().getId();
         db.collection("Events").document(id).set(hashMap);
         Log.e("SEND POST", "Sent");
     }
+
+
 }

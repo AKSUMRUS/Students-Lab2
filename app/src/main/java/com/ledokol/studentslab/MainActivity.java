@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
             signIn();
         }
         else {
-            Intent intent = new Intent(MainActivity.this, CreateEvent.class);
-            startActivity(intent);
+//            Intent intent = new Intent(MainActivity.this, CreateEvent.class);
+//            startActivity(intent);
         }
 
     }
