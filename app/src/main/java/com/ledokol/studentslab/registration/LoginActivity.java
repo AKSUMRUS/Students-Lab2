@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email.getText() != null && password.getText() != null) {
+                if(!email.getText().toString().toString().equals("") && !password.getText().toString().equals("")) {
                     login(email.getText().toString(),password.getText().toString());
                 }
             }
