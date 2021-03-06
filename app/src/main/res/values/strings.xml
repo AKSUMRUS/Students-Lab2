@@ -19,4 +19,5 @@
     <string name="contacts">Contacts</string>
     <string name="email_contacts">Email: </string>
     <string name="timetable">Timetable</string>
+    <string name="unknown">Unknown</string>
 </resources>

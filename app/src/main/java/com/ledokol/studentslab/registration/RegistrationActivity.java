@@ -24,6 +24,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.ledokol.studentslab.MainActivity;
 import com.ledokol.studentslab.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -84,6 +85,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             HashMap<String,Object>  hashMap = new HashMap<>();
                             hashMap.put("name", nickname);
                             hashMap.put("email",email);
+                            ArrayList arrayList = new ArrayList();
+                            hashMap.put("myEvents",arrayList);
                             docRef.set(hashMap, SetOptions.merge());
                             updateUI();
 //                            updateUI(user);
