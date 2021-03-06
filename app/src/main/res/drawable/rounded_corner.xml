@@ -4,11 +4,11 @@
     android:insetLeft="4dp"
     android:insetRight="4dp"
     android:insetTop="6dp">
-    <ripple android:color="?attr/colorControlHighlight">
+    <ripple android:color="@color/card_back">
         <item>
             <shape android:shape="rectangle"
-                android:tint="#A2B6EC">
-                <corners android:radius="20dp"/>
+                android:tint="@color/card_back">
+                <corners android:radius="5dp"/>
                 <solid android:color="#19CC94"/>
                 <padding android:bottom="6dp"/>
             </shape>
