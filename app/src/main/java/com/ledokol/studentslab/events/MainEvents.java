@@ -9,42 +9,74 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ledokol.studentslab.Event;
 import com.ledokol.studentslab.R;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class MainEvents extends Fragment {
 
-    ArrayList<Event> states = new ArrayList<Event>();
+    ArrayList<Event> events = new ArrayList<Event>();
+    View view;
 
     @Override
     // Переопределяем метод onCreateView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main_events, container, false);
+        view = inflater.inflate(R.layout.fragment_main_events, container, false);
 
         Toast.makeText(getActivity(),"MainEvents",Toast.LENGTH_SHORT).show();
-        setInitialData();;
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        // создаем адаптер
-        RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), states);
-        // устанавливаем для списка адаптер
-        recyclerView.setAdapter(adapter);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+
+        db.collection("Events")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int cnt=0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                cnt++;
+                                Map<String,Object> inf = document.getData();
+                                setInitialData(inf);
+                                if(task.getResult().size()==cnt){
+                                    createRecycle();
+                                }
+                            }
+                        }
+                    }
+                });
         return view;
     }
 
 
-    private void setInitialData(){
+    public void createRecycle(){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        // создаем адаптер
+        RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events);
+        // устанавливаем для списка адаптер
+        recyclerView.setAdapter(adapter);
+    }
 
-        states.add(new Event ("Бразилия", "Бразилиа", R.drawable.ic_launcher_background));
-        states.add(new Event ("Аргентина", "Буэнос-Айрес", R.drawable.ic_launcher_background));
-        states.add(new Event ("Колумбия", "Богота", R.drawable.ic_launcher_background));
-        states.add(new Event ("Уругвай", "Монтевидео", R.drawable.ic_launcher_background));
-        states.add(new Event("Чили", "Сантьяго", R.drawable.ic_launcher_background));
+    private void setInitialData(Map<String,Object> inf){
+
+        events.add(new Event(inf.get("title").toString(),inf.get("description").toString(),R.drawable.ic_launcher_background));
+//        events.add(new Event ("Бразилия", "Бразилиа", R.drawable.ic_launcher_background));
+//        events.add(new Event ("Аргентина", "Буэнос-Айрес", R.drawable.ic_launcher_background));
+//        events.add(new Event ("Колумбия", "Богота", R.drawable.ic_launcher_background));
+//        events.add(new Event ("Уругвай", "Монтевидео", R.drawable.ic_launcher_background));
+//        events.add(new Event("Чили", "Сантьяго", R.drawable.ic_launcher_background));
     }
 }

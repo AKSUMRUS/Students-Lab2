@@ -4,8 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".events.MainEvents">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Мероприятия"
+        android:textSize="12pt"
+        android:layout_margin="20px"
+        android:fontFamily="casual"
+        android:textFontWeight="500"
+        android:textColor="@color/colorWhite"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

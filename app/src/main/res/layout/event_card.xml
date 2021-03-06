@@ -5,15 +5,18 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_margin="20px"
+        android:layout_marginLeft="12px"
+        android:layout_marginRight="12px"
+        android:layout_marginTop="6px"
         android:background="@drawable/rounded_corner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginTop="8px"
             android:layout_marginRight="20px"
             >
 
@@ -21,7 +24,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10:00"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/colorPrimary"
+                android:gravity="top"
+                android:layout_gravity="top"
                 />
 
 
@@ -31,14 +37,17 @@
                 android:text="11:00"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="bottom"
-                android:gravity="bottom"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentBottom="true"
                 />
 
-        </LinearLayout>
+        </FrameLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:src="@drawable/line_divider"
             />
 
@@ -47,28 +56,30 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="20px">
+            android:layout_margin="15px">
+            <TextView
+                android:id="@+id/typeEvent"
+                android:text="Лекция"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="35px"
+                android:layout_width="match_parent">
+            </TextView>
             <TextView
                 android:id="@+id/titleEvent"
                 android:text="Новое мероприятие"
                 android:textColor="@color/colorWhite"
                 android:layout_height="wrap_content"
-                android:textSize="14pt"
+                android:textSize="50px"
                 android:layout_width="match_parent">
             </TextView>
             <TextView
                 android:id="@+id/textEvent"
                 android:text="Это очень хорошее плезное мероприятие"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
                 android:layout_width="match_parent">
             </TextView>
-            <ImageView
-                android:id="@+id/logoEvent"
-                android:layout_marginTop="20px"
-                android:src="@drawable/ic_launcher_background"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-            </ImageView>
         </LinearLayout>
 
 

@@ -1,15 +1,19 @@
 package com.ledokol.studentslab.events;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.ledokol.studentslab.Event;
 import com.ledokol.studentslab.R;
@@ -21,7 +25,7 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
     private final LayoutInflater inflater;
     private final List<Event> events;
     BottomSheetDialog bottomSheetDialog;
-    View bottomSheetView;
+    LinearLayout bottomSheetView;
     Context context;
 
     RecycleViewEventsMainView(Context context, List<Event> states) {
@@ -39,7 +43,7 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
     @Override
     public void onBindViewHolder(RecycleViewEventsMainView.ViewHolder holder, int position) {
         Event state = events.get(position);
-        holder.logoView.setImageResource(state.getLogo());
+//        holder.logoView.setImageResource(state.getLogo());
         holder.titleView.setText(state.getTitle());
         holder.textView.setText(state.getText());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,11 +55,26 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
     }
 
     public void showBottomSheet(){
-        bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.fragment_bottom_sheet_event, null);//Главные функции
+        bottomSheetView = (LinearLayout) LayoutInflater.from(this.context).inflate(R.layout.fragment_bottom_sheet_event, null);//Главные функции
         bottomSheetDialog = new BottomSheetDialog(this.context);
         bottomSheetDialog.setContentView(bottomSheetView);
-        Toast.makeText(this.context,"BottomSheetDialog",Toast.LENGTH_SHORT).show();;
+        ViewGroup.LayoutParams layoutParams = bottomSheetView.getLayoutParams();
+
+        int windowHeight = getWindowHeight();
+        if (layoutParams != null) {
+            layoutParams.height = windowHeight;
+        }
+        bottomSheetView.setLayoutParams(layoutParams);
+//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         bottomSheetDialog.show();
+    }
+
+    private int getWindowHeight() {
+        // Calculate window height for fullscreen use
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity)this.context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 
     @Override
@@ -70,7 +89,7 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
             super(view);
             titleView=view.findViewById(R.id.titleEvent);
             textView=view.findViewById(R.id.textEvent);
-            logoView=view.findViewById(R.id.logoEvent);
+//            logoView=view.findViewById(R.id.logoEvent);
         }
     }
 }

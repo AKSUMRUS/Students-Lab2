@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#373A3D</item>
@@ -9,6 +9,10 @@
 
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
+    </style>
+
+    <style name="introduction" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/introduction</item>
     </style>
 
 </resources>

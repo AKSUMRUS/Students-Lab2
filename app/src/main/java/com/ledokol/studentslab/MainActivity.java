@@ -30,13 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_main_events:
-                    Fragment fragment=new MainEvents();
+                    fragment=new MainEvents();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.navigation_add:
+                    fragment=new CreateEvent();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_profile:
-                    Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();;
                     //здесь запустить профиль
 //                    Fragment fragment=new MainEvents();
 //                    loadFragment(fragment);
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.nav_viewMain);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+            navigation.setSelectedItemId(R.id.navigation_main_events);
 //            Intent intent = new Intent(MainActivity.this, CreateEvent.class);
 //            startActivity(intent);
         }
