@@ -96,6 +96,7 @@ public class CreateEvent extends Fragment {
                 arrayList.add(id);
                 m.put("myEvents",arrayList);
                 docRef.set(m,SetOptions.merge());
+                Toast.makeText(getContext(),"New event has sent",Toast.LENGTH_LONG).show();
             }
         });
         Log.e("SEND POST", "Sent");

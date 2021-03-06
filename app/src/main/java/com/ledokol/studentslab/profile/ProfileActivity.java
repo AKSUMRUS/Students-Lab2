@@ -117,7 +117,7 @@ public class ProfileActivity extends Fragment {
         phone.setText(phone_text);
         states = new ArrayList<Event>();
         if(events.size() > 0) {
-            downloadEvents(0);
+            downloadEvents(events.size()-1);
             Log.e("EVENTS IN", "SIZE: " + events.size());
         }
     }
@@ -135,8 +135,8 @@ public class ProfileActivity extends Fragment {
 
                 states.add(new Event (title, description, R.drawable.ic_launcher_background));
 
-                if(pos+1 < events.size()){
-                    downloadEvents(pos+1);
+                if(pos-1 > 0){
+                    downloadEvents(pos-1);
                     Log.e("RECYCLER VIEW","POS: " + pos);
                 }
                 else{
