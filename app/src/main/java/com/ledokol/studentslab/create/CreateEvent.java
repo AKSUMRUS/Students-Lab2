@@ -2,13 +2,11 @@ package com.ledokol.studentslab.create;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,9 +28,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.ledokol.studentslab.R;
+import com.ledokol.studentslab.events.MainEvents;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -43,7 +42,8 @@ public class CreateEvent extends Fragment {
     EditText title,description,address;
     Button time,sendEvent;
     FirebaseUser user;
-    int mMinute,mHour,mYear,mMonth, mDay;
+    int mMinuteStart, mHourStart, mYearStart, mMonthStart, mDayStart;
+    int mMinuteEnd,mHourEnd,mYearEnd,mMonthEnd, mDayEnd;
     String date_time;
 
     @Nullable
@@ -62,9 +62,9 @@ public class CreateEvent extends Fragment {
             public void onClick(View v) {
 
                 final java.util.Calendar c = java.util.Calendar.getInstance();
-                mYear = c.get(java.util.Calendar.YEAR);
-                mMonth = c.get(java.util.Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
+                mYearStart = c.get(java.util.Calendar.YEAR);
+                mMonthStart = c.get(java.util.Calendar.MONTH);
+                mDayStart = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
                         new DatePickerDialog.OnDateSetListener() {
@@ -76,7 +76,32 @@ public class CreateEvent extends Fragment {
                                 //*************Call Time Picker Here ********************
                                 tiemPicker(startTime);
                             }
-                        }, mYear, mMonth, mDay);
+                        }, mYearStart, mMonthStart, mDayStart);
+                datePickerDialog.show();
+            }
+        });
+
+        final Button endTime = view.findViewById(R.id.time_end_lesson);
+        endTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final java.util.Calendar c = java.util.Calendar.getInstance();
+                mYearEnd = c.get(java.util.Calendar.YEAR);
+                mMonthEnd = c.get(java.util.Calendar.MONTH);
+                mDayEnd = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                //*************Call Time Picker Here ********************
+                                tiemPicker(endTime);
+                            }
+                        }, mYearEnd, mMonthEnd, mDayEnd);
                 datePickerDialog.show();
             }
         });
@@ -98,8 +123,8 @@ public class CreateEvent extends Fragment {
     private void tiemPicker(final Button time){
         // Get Current Time
         final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
+        mHourStart = c.get(Calendar.HOUR_OF_DAY);
+        mMinuteStart = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
@@ -108,16 +133,14 @@ public class CreateEvent extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute) {
 
-                        mHour = hourOfDay;
-                        mMinute = minute;
+                        mHourStart = hourOfDay;
+                        mMinuteStart = minute;
 
                         time.setText(date_time+" "+hourOfDay + ":" + minute);
                     }
-                }, mHour, mMinute, false);
+                }, mHourStart, mMinuteStart, false);
         timePickerDialog.show();
     }
-
-
 
 
     void sendEvent(){
@@ -127,6 +150,11 @@ public class CreateEvent extends Fragment {
         hashMap.put("description",description.getText().toString());
         hashMap.put("address",address.getText().toString());
         hashMap.put("author",user.getUid());
+//        Timestamp timestampStart = new Timestamp(mYearStart,mMonthStart,mDayStart,mHourStart,mMinuteStart,0,0);
+//        Timestamp timestampStart= new Timestamp(mYearStart,mMonthStart,mDayStart,mHourStart,mMinuteStart);
+//        hashMap.put("time_start",timestampStart);
+//        Timestamp timestampEnd = Timestamp.now();
+//        hashMap.put("time_end",timestampEnd);
         final String id = db.collection("Events").document().getId();
         db.collection("Events").document(id).set(hashMap);
         final DocumentReference docRef = db.collection("Account").document(user.getUid());
@@ -138,11 +166,19 @@ public class CreateEvent extends Fragment {
                 arrayList.add(id);
                 m.put("myEvents",arrayList);
                 docRef.set(m,SetOptions.merge());
+                Fragment fragment = new MainEvents();
+                loadFragment(fragment);
                 Toast.makeText(getContext(),"New event has sent",Toast.LENGTH_LONG).show();
             }
         });
         Log.e("SEND POST", "Sent");
     }
 
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fl_content, fragment);
+        ft.commit();
+    }
 
 }

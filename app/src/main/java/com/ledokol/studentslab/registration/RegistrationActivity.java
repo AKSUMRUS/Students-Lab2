@@ -31,7 +31,7 @@ import java.util.Random;
 public class RegistrationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText nickname,email,password;
-    Button signUpButton;
+    Button signUpButton,loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
         password = findViewById(R.id.password_input);
 
         signUpButton = findViewById(R.id.sign_up_button);
+        loginButton = findViewById(R.id.login_button);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(!nickname.getText().toString().isEmpty() && !email.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
                     signUp(email.getText().toString(),password.getText().toString(),nickname.getText().toString());
                 }
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logIn();
             }
         });
     }
@@ -181,5 +189,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 break;
 
         }
+    }
+
+    void logIn(){
+        Intent intent = new Intent(RegistrationActivity.this,LoginActivity.class);
+        startActivity(intent);
     }
 }
