@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_main_events"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/main_menu"
         android:title="@string/bottom_navigation_main_events" />
 
     <item

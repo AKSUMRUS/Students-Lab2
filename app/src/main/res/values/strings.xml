@@ -11,10 +11,13 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="address">Address</string>
-    <string name="description">Description</string>
+    <string name="lecture">Лекция</string>
+    <string name="seminar">Семинар</string>
+    <string name="description">Описание</string>
     <string name="title">Title</string>
-    <string name="time">Time</string>
-    <string name="send_event">Send event</string>
+    <string name="time_start_lesson">Начало урока</string>
+    <string name="time_end_lesson">Конец урока</string>
+    <string name="send_event">Опубликовать мероприятие</string>
     <string name="teacher">Teacher</string>
     <string name="phone">Phone: </string>
     <string name="contacts">Contacts</string>

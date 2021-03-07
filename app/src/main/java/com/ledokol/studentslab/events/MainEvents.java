@@ -57,11 +57,12 @@ public class MainEvents extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 cnt++;
                                 Map<String,Object> inf = document.getData();
-                                setInitialData(inf,cnt==task.getResult().size());
+                                setInitialData(inf,document.getId(),cnt==task.getResult().size());
                             }
                         }
                     }
                 });
+
         return view;
     }
 
@@ -69,12 +70,12 @@ public class MainEvents extends Fragment {
     public void createRecycle(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         // создаем адаптер
-        RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events);
+        RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events, false);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
     }
 
-    private void setInitialData(final Map<String,Object> inf,final Boolean check){
+    private void setInitialData(final Map<String,Object> inf,final String token, final Boolean check){
 
         DocumentReference docRef = db.collection("Account").document(inf.get("author").toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -85,7 +86,13 @@ public class MainEvents extends Fragment {
                     if (documentSnapshot.exists()) {
                         Map<String, Object> infUser = documentSnapshot.getData();
                         String name=infUser.get("name").toString();
-                        events.add(new Event(inf.get("title").toString(),inf.get("description").toString(),inf.get("author").toString(), name.toString(),inf.get("address").toString(),R.drawable.ic_launcher_background));
+
+                        ArrayList viewers=new ArrayList();
+                        if(inf.get("viewers")!=null){
+                            viewers=(ArrayList)inf.get("viewers");
+                        }
+
+                        events.add(new Event(token, inf.get("title").toString(),inf.get("description").toString(),inf.get("author").toString(), name.toString(),inf.get("address").toString(),"10:00",viewers, R.drawable.ic_launcher_background));
                         if(check){
                             createRecycle();;
                         }
@@ -93,11 +100,7 @@ public class MainEvents extends Fragment {
                 }
             }
         });
-
-//        events.add(new Event ("Бразилия", "Бразилиа", R.drawable.ic_launcher_background));
-//        events.add(new Event ("Аргентина", "Буэнос-Айрес", R.drawable.ic_launcher_background));
-//        events.add(new Event ("Колумбия", "Богота", R.drawable.ic_launcher_background));
-//        events.add(new Event ("Уругвай", "Монтевидео", R.drawable.ic_launcher_background));
-//        events.add(new Event("Чили", "Сантьяго", R.drawable.ic_launcher_background));
     }
+
+
 }

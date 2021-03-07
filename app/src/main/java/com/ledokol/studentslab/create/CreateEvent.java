@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +33,7 @@ import com.ledokol.studentslab.R;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +43,8 @@ public class CreateEvent extends Fragment {
     EditText title,description,address;
     Button time,sendEvent;
     FirebaseUser user;
+    int mMinute,mHour,mYear,mMonth, mDay;
+    String date_time;
 
     @Nullable
     @Override
@@ -54,15 +56,33 @@ public class CreateEvent extends Fragment {
         description = view.findViewById(R.id.description_input);
         address = view.findViewById(R.id.address_input);
 
-        time = view.findViewById(R.id.time_input);
-        sendEvent = view.findViewById(R.id.send_event_button);
-
-        time.setOnClickListener(new View.OnClickListener() {
+        final Button startTime = view.findViewById(R.id.time_start_lesson);
+        startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                final java.util.Calendar c = java.util.Calendar.getInstance();
+                mYear = c.get(java.util.Calendar.YEAR);
+                mMonth = c.get(java.util.Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                //*************Call Time Picker Here ********************
+                                tiemPicker(startTime);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
             }
         });
+
+
+        sendEvent = view.findViewById(R.id.send_event_button);
 
         sendEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +93,28 @@ public class CreateEvent extends Fragment {
             }
         });
         return view;
+    }
+
+    private void tiemPicker(final Button time){
+        // Get Current Time
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,int minute) {
+
+                        mHour = hourOfDay;
+                        mMinute = minute;
+
+                        time.setText(date_time+" "+hourOfDay + ":" + minute);
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
     }
 
 

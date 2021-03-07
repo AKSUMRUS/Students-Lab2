@@ -34,10 +34,16 @@
 
 
     <Button
-        android:id="@+id/time_input"
+        android:id="@+id/time_start_lesson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/time" />
+        android:text="@string/time_start_lesson" />
+
+    <Button
+        android:id="@+id/time_end_lesson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/time_end_lesson" />
 
     <TextView
         android:id="@+id/address_text"

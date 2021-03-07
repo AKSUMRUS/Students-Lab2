@@ -5,4 +5,5 @@
     <color name="colorAccent">#A29A9A</color>
     <color name="card_back">#373A3D</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorSubscribed">#4E4D4D</color>
 </resources>

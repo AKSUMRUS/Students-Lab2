@@ -1,18 +1,32 @@
 package com.ledokol.studentslab;
 
+import java.util.List;
+
 public class Event {
 
-    private String title;
-    private String text,teacher,teacherName,classroom;
+    private String title,token;
+    private String text,teacher,teacherName,address,time;
     private int logo;
+    private List<String> viewers;
 
-    public Event(String title, String text, String teacher, String teacherName, String classroom, int logo){
+    public Event(String token, String title, String text, String teacher, String teacherName, String classroom, String time, List<String> viewers, int logo){
+        this.token=token;
         this.title=title;
         this.text=text;
         this.teacher=teacher;
         this.teacherName=teacherName;
-        this.classroom=classroom;
+        this.address=classroom;
+        this.time=time;
+        this.viewers=viewers;
         this.logo =logo;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getTitle() {
@@ -47,12 +61,28 @@ public class Event {
         this.teacherName = teacherName;
     }
 
-    public String getClassroom() {
-        return this.classroom;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setClassroom(String classroom) {
-        this.classroom = classroom;
+    public void setAddress(String classroom) {
+        this.address = classroom;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public List<String> getViewers() {
+        return this.viewers;
+    }
+
+    public void setViewers(List<String> viewers) {
+        this.viewers = viewers;
     }
 
     public int getLogo() {

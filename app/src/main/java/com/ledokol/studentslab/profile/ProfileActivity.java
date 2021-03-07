@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.ledokol.studentslab.registration.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfileActivity extends Fragment {
@@ -39,8 +42,14 @@ public class ProfileActivity extends Fragment {
     FirebaseFirestore db;
     TextView name,role,phone,email;
     String author_uid,name_text,role_text,phone_text,email_text;
-    ArrayList events;
-    ArrayList<Event> states;
+    ArrayList<Event> events;
+    ArrayList<String> tokenEvents;
+    String userId;
+
+    public ProfileActivity(String UserId){
+        this.userId=UserId;
+    }
+    public ProfileActivity(){ }
 
     @Nullable
     @Override
@@ -56,21 +65,25 @@ public class ProfileActivity extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        author_uid = user.getUid();
+        if(userId==null){
+            userId=user.getUid();
+        }
+//        author_uid = user.getUid();
 
+        events=new ArrayList<>();
+        tokenEvents=new ArrayList<>();
         downloadData();
 
         return view;
     }
 
     void downloadData(){
-        DocumentReference docRef = db.collection("Account").document(user.getUid());
+        DocumentReference docRef = db.collection("Account").document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     Map<String,Object> m = task.getResult().getData();
-
 
                     if(m != null) {
 
@@ -96,9 +109,7 @@ public class ProfileActivity extends Fragment {
                         }
 
                         if (m.get("myEvents") != null) {
-                            events = (ArrayList) m.get("myEvents");
-                        } else {
-                            events = new ArrayList();
+                            tokenEvents = (ArrayList) m.get("myEvents");
                         }
 
                         setUI();
@@ -115,15 +126,36 @@ public class ProfileActivity extends Fragment {
         email.setText(email_text);
         role.setText(role_text);
         phone.setText(phone_text);
-        states = new ArrayList<Event>();
-        if(events.size() > 0) {
-            downloadEvents(events.size()-1);
-            Log.e("EVENTS IN", "SIZE: " + events.size());
+        if(tokenEvents.size() > 0) {
+            downloadEvents(tokenEvents.size()-1);
+            Log.e("EVENTS IN", "SIZE: " + tokenEvents.size());
         }
     }
 
+    public void onBackPressed() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Log.e("onBackPressed",String.valueOf(fm.getBackStackEntryCount()));
+        if (fm.getBackStackEntryCount() > 0)
+            fm.popBackStack();
+        else
+            getActivity().finish();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     void downloadEvents(final int pos){
-        DocumentReference docRef = db.collection("Events").document(events.get(pos).toString());
+        DocumentReference docRef = db.collection("Events").document(tokenEvents.get(pos).toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -132,17 +164,21 @@ public class ProfileActivity extends Fragment {
                 String title = m.get("title").toString();
                 String description = m.get("description").toString();
                 String address = m.get("address").toString();
+                List<String> viewers=new ArrayList<>();
+                if(m.get("viewers")!=null){
+                    viewers = (ArrayList) m.get("viewers");
+                }
 
-                states.add(new Event (title, description, R.drawable.ic_launcher_background));
+                events.add(new Event (task.getResult().getId(),title, description,userId,"Иванов",address,"10:00 1 января",viewers, R.drawable.add_event));
 
-                if(pos-1 > 0){
+                if(pos-1 >= 0){
                     downloadEvents(pos-1);
                     Log.e("RECYCLER VIEW","POS: " + pos);
                 }
                 else{
-                    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+                    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listMyEventsLecture);
                     // создаем адаптер
-                    RecycleViewProfileView adapter = new RecycleViewProfileView(getActivity(), states);
+                    RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events,user.getUid().toString().equals(userId));
                     // устанавливаем для списка адаптер
                     recyclerView.setAdapter(adapter);
 
