@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ledokol.studentslab.Event;
 import com.ledokol.studentslab.R;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +93,14 @@ public class MainEvents extends Fragment {
                         if(inf.get("viewers")!=null){
                             viewers=(ArrayList)inf.get("viewers");
                         }
-                        events.add(new Event(token, inf.get("title").toString(), inf.get("description").toString(), inf.get("author").toString(), name.toString(), inf.get("address").toString(), "10:00", viewers, R.drawable.ic_launcher_background));
+                        if(inf.get("time_start") == null){
+                            inf.put("time_start",Timestamp.now());
+                        }
+                        if(inf.get("time_end") == null){
+                            inf.put("time_end",Timestamp.now());
+                        }
+                        Log.e("TIMESTAMP", String.valueOf(inf));
+                        events.add(new Event(token, inf.get("title").toString(), inf.get("description").toString(), inf.get("author").toString(), name.toString(), inf.get("address").toString(), "10:00", viewers, R.drawable.ic_launcher_background,(Timestamp) inf.get("time_start"),(Timestamp) inf.get("time_end")));
                         if(check){
                             createRecycle();;
                         }

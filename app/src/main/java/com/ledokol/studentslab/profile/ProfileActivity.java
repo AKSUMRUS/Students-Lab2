@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +31,7 @@ import com.ledokol.studentslab.R;
 import com.ledokol.studentslab.events.RecycleViewEventsMainView;
 import com.ledokol.studentslab.registration.LoginActivity;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,12 +167,14 @@ public class ProfileActivity extends Fragment {
                     String title = m.get("title").toString();
                     String description = m.get("description").toString();
                     String address = m.get("address").toString();
+                    Timestamp start = (Timestamp) m.get("time_start");
+                    Timestamp end = (Timestamp) m.get("time_end");
                     List<String> viewers = new ArrayList<>();
                     if (m.get("viewers") != null) {
                         viewers = (ArrayList) m.get("viewers");
                     }
 
-                    events.add(new Event(task.getResult().getId(), title, description, userId, "Иванов", address, "10:00 1 января", viewers, R.drawable.add_event));
+                    events.add(new Event(task.getResult().getId(), title, description, userId, "Иванов", address, "10:00 1 января", viewers, R.drawable.add_event,start,end));
                 }
 
                     if (pos - 1 >= 0) {

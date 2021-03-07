@@ -31,6 +31,7 @@ import com.ledokol.studentslab.Event;
 import com.ledokol.studentslab.R;
 import com.ledokol.studentslab.profile.ProfileActivity;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,10 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
         holder.titleView.setText(state.getTitle());
         holder.teacherView.setText(state.getTeacherName());
         holder.addressView.setText(state.getAddress());
+        Time start = new Time(state.getStart().getSeconds());
+        Time end = new Time(state.getEnd().getSeconds());
+        holder.timeStartView.setText(start.getHours()+":"+start.getMinutes());
+        holder.timeEndView.setText(end.getHours()+":"+end.getMinutes());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,13 +230,15 @@ public class RecycleViewEventsMainView  extends RecyclerView.Adapter<RecycleView
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleView,teacherView,addressView;
+        TextView titleView,teacherView,addressView,timeStartView,timeEndView;
         ImageView logoView;
         ViewHolder(View view){
             super(view);
             titleView=view.findViewById(R.id.titleEvent);
             teacherView=view.findViewById(R.id.teacherEvent);
             addressView=view.findViewById(R.id.classroomEvent);
+            timeStartView=view.findViewById(R.id.time_start);
+            timeEndView=view.findViewById(R.id.time_end);
         }
     }
 }

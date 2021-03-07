@@ -28,6 +28,7 @@
                 android:textColor="@color/colorPrimary"
                 android:gravity="top"
                 android:layout_gravity="top"
+                android:id="@+id/time_start"
                 />
 
 
@@ -40,6 +41,7 @@
                 android:gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_alignParentBottom="true"
+                android:id="@+id/time_end"
                 />
 
         </FrameLayout>
