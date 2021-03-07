@@ -8,59 +8,104 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/title_text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title" />
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:background="@drawable/rounded_input"
+        android:layout_margin="10dp"
+        android:hint="@string/title">
 
-    <EditText
-        android:id="@+id/title_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorWhite"
+            android:textColorLink="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:id="@+id/title_input"
+            />
 
-    <TextView
-        android:id="@+id/description_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/description" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/description_input"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:background="@drawable/rounded_input"
+        android:layout_margin="10dp"
+        android:hint="@string/description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorWhite"
+            android:textColorLink="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:id="@+id/description_input"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
         android:id="@+id/time_start_lesson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="120dp"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
         android:text="@string/time_start_lesson" />
 
     <Button
         android:id="@+id/time_end_lesson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="120dp"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
         android:text="@string/time_end_lesson" />
 
-    <TextView
-        android:id="@+id/address_text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/address" />
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:background="@drawable/rounded_input"
+        android:layout_margin="10dp"
+        android:hint="@string/address">
 
-    <EditText
-        android:id="@+id/address_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorWhite"
+            android:textColorLink="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:id="@+id/address_input"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/send_event_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="120dp"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"
         android:text="@string/send_event" />
 
 </LinearLayout>
