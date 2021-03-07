@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,21 +33,27 @@ import com.google.firebase.firestore.SetOptions;
 import com.ledokol.studentslab.R;
 import com.ledokol.studentslab.events.MainEvents;
 
-import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateEvent extends Fragment {
 
+    ArrayAdapter<String> adapter;
+
     View view;
     EditText title,description,address;
+    TextInputLayout typeInput;
+    AutoCompleteTextView type;
     Button time,sendEvent;
     FirebaseUser user;
     int mMinuteStart, mHourStart, mYearStart, mMonthStart, mDayStart;
     int mMinuteEnd,mHourEnd,mYearEnd,mMonthEnd, mDayEnd;
     String date_time;
+    Calendar timeStart,timeEnd;
 
     @Nullable
     @Override
@@ -56,28 +65,37 @@ public class CreateEvent extends Fragment {
         description = view.findViewById(R.id.description_input);
         address = view.findViewById(R.id.address_input);
 
+        typeInput = view.findViewById(R.id.textField5);
+        type = view.findViewById(R.id.type_input);
+
+        final String[] typeList = getResources().getStringArray(R.array.type_events);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.list_item,typeList);
+
+        type.setText(typeList[0]);
+
+        type.setAdapter(adapter);
+
         final Button startTime = view.findViewById(R.id.time_start_lesson);
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final java.util.Calendar c = java.util.Calendar.getInstance();
-                mYearStart = c.get(java.util.Calendar.YEAR);
-                mMonthStart = c.get(java.util.Calendar.MONTH);
-                mDayStart = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
-                        new DatePickerDialog.OnDateSetListener() {
-
+                final Calendar currentDate = Calendar.getInstance();
+                timeStart = Calendar.getInstance();
+                new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        timeStart.set(year, monthOfYear, dayOfMonth);
+                        new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                                date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                //*************Call Time Picker Here ********************
-                                tiemPicker(startTime);
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                timeStart.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                timeStart.set(Calendar.MINUTE, minute);
+                                Log.v("Time", "The choosen one " + timeStart.getTime());
                             }
-                        }, mYearStart, mMonthStart, mDayStart);
-                datePickerDialog.show();
+                        }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+                    }
+                }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
             }
         });
 
@@ -85,24 +103,22 @@ public class CreateEvent extends Fragment {
         endTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final java.util.Calendar c = java.util.Calendar.getInstance();
-                mYearEnd = c.get(java.util.Calendar.YEAR);
-                mMonthEnd = c.get(java.util.Calendar.MONTH);
-                mDayEnd = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),R.style.AlertDatePickerDialogTheme,
-                        new DatePickerDialog.OnDateSetListener() {
-
+                final Calendar currentDate = Calendar.getInstance();
+                timeEnd = Calendar.getInstance();
+                new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        timeEnd.set(year, monthOfYear, dayOfMonth);
+                        new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                                date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                //*************Call Time Picker Here ********************
-                                tiemPicker(endTime);
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                timeEnd.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                timeEnd.set(Calendar.MINUTE, minute);
+                                Log.v("Time", "The choosen one " + timeEnd.getTime());
                             }
-                        }, mYearEnd, mMonthEnd, mDayEnd);
-                datePickerDialog.show();
+                        }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+                    }
+                }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
             }
         });
 
@@ -119,6 +135,7 @@ public class CreateEvent extends Fragment {
         });
         return view;
     }
+
 
     private void tiemPicker(final Button time){
         // Get Current Time
@@ -150,6 +167,17 @@ public class CreateEvent extends Fragment {
         hashMap.put("description",description.getText().toString());
         hashMap.put("address",address.getText().toString());
         hashMap.put("author",user.getUid());
+        hashMap.put("type",type.getText().toString());
+        Timestamp timestampStart = new Timestamp(timeStart.getTime());
+        hashMap.put("time_start",timestampStart);
+        Timestamp timestampEnd = new Timestamp(timeEnd.getTime());
+        hashMap.put("time_end",timestampEnd);
+
+        // LOG
+
+//        timestampEnd.toDate().getHours()
+
+
 //        Timestamp timestampStart = new Timestamp(mYearStart,mMonthStart,mDayStart,mHourStart,mMinuteStart,0,0);
 //        Timestamp timestampStart= new Timestamp(mYearStart,mMonthStart,mDayStart,mHourStart,mMinuteStart);
 //        hashMap.put("time_start",timestampStart);

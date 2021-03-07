@@ -91,8 +91,7 @@ public class MainEvents extends Fragment {
                         if(inf.get("viewers")!=null){
                             viewers=(ArrayList)inf.get("viewers");
                         }
-
-                        events.add(new Event(token, inf.get("title").toString(),inf.get("description").toString(),inf.get("author").toString(), name.toString(),inf.get("address").toString(),"10:00",viewers, R.drawable.ic_launcher_background));
+                        events.add(new Event(token, inf.get("title").toString(), inf.get("description").toString(), inf.get("author").toString(), name.toString(), inf.get("address").toString(), "10:00", viewers, R.drawable.ic_launcher_background));
                         if(check){
                             createRecycle();;
                         }

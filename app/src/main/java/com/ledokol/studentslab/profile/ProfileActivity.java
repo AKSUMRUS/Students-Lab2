@@ -161,29 +161,30 @@ public class ProfileActivity extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 Map<String,Object> m = task.getResult().getData();
 
-                String title = m.get("title").toString();
-                String description = m.get("description").toString();
-                String address = m.get("address").toString();
-                List<String> viewers=new ArrayList<>();
-                if(m.get("viewers")!=null){
-                    viewers = (ArrayList) m.get("viewers");
+                if(m != null) {
+                    String title = m.get("title").toString();
+                    String description = m.get("description").toString();
+                    String address = m.get("address").toString();
+                    List<String> viewers = new ArrayList<>();
+                    if (m.get("viewers") != null) {
+                        viewers = (ArrayList) m.get("viewers");
+                    }
+
+                    events.add(new Event(task.getResult().getId(), title, description, userId, "Иванов", address, "10:00 1 января", viewers, R.drawable.add_event));
                 }
 
-                events.add(new Event (task.getResult().getId(),title, description,userId,"Иванов",address,"10:00 1 января",viewers, R.drawable.add_event));
+                    if (pos - 1 >= 0) {
+                        downloadEvents(pos - 1);
+                        Log.e("RECYCLER VIEW", "POS: " + pos);
+                    } else {
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listMyEventsLecture);
+                        // создаем адаптер
+                        RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events, user.getUid().toString().equals(userId));
+                        // устанавливаем для списка адаптер
+                        recyclerView.setAdapter(adapter);
 
-                if(pos-1 >= 0){
-                    downloadEvents(pos-1);
-                    Log.e("RECYCLER VIEW","POS: " + pos);
-                }
-                else{
-                    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listMyEventsLecture);
-                    // создаем адаптер
-                    RecycleViewEventsMainView adapter = new RecycleViewEventsMainView(getActivity(), events,user.getUid().toString().equals(userId));
-                    // устанавливаем для списка адаптер
-                    recyclerView.setAdapter(adapter);
-
-                    Log.e("RECYCLER VIEW","Done");
-                }
+                        Log.e("RECYCLER VIEW", "Done");
+                    }
             }
         });
     }

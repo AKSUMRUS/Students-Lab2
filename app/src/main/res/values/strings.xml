@@ -25,4 +25,9 @@
     <string name="timetable">Расписание</string>
     <string name="unknown">Неизвестно</string>
     <string name="type">Тип</string>
+
+    <string-array name="type_events">
+        <item>Лекция</item>
+        <item>Семинар</item>
+    </string-array>
 </resources>

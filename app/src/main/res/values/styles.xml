@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#373A3D</item>
@@ -31,4 +31,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+
+    <style name="TextLabel" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+<!--        <item name="android:textColorHint">@color/hint_color</item>-->
+<!--        <item name="android:textSize">@dimen/text_20sp</item>-->
+<!--        <item name="colorControlNormal">@color/primaryGray</item>-->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 </resources>

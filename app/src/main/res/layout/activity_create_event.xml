@@ -7,7 +7,19 @@
     tools:context=".create.CreateEvent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Новое мероприятие"
+        android:textSize="12pt"
+        android:layout_margin="20px"
+        android:fontFamily="casual"
+        android:textFontWeight="500"
+        android:textColor="@color/colorWhite"
+        />
+
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:id="@+id/textField5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,10 +27,9 @@
         android:textColorHint="@color/colorWhite"
         android:background="@drawable/rounded_input"
         android:layout_margin="10dp"
-        android:hint="@string/type"
-        style="@style/Widget.MaterialComponents.TextInputLayout.*.ExposedDropdownMenu">
+        app:boxStrokeColor="@color/colorWhite">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -27,6 +38,7 @@
             android:textColorLink="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             android:id="@+id/type_input"
+            android:focusable="false"
             android:inputType="none"
             />
 
@@ -40,6 +52,7 @@
         android:textColorHint="@color/colorWhite"
         android:background="@drawable/rounded_input"
         android:layout_margin="10dp"
+        app:boxStrokeColor="@color/colorWhite"
         android:hint="@string/title">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -50,6 +63,7 @@
             android:textColor="@color/colorWhite"
             android:textColorLink="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
+            app:boxStrokeColor="@color/colorWhite"
             android:id="@+id/title_input"
             />
 
@@ -71,6 +85,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorWhite"
+            app:boxStrokeColor="@color/colorWhite"
             android:textColorLink="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             android:id="@+id/description_input"
